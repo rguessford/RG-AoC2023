@@ -1,7 +1,5 @@
 package com.thrivent.aoc.rgaoc2023;
 
-import lombok.AllArgsConstructor;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
