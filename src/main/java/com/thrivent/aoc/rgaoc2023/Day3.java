@@ -98,7 +98,7 @@ public class Day3 {
     public static List<Integer> findGearRatios(List<Gear> gearList, List<PartNumber> partNumberList){
         List<Integer> gearRatios = new ArrayList<>();
         for(Gear gear:gearList){
-            log.info("gear{}", gear);
+            log.debug("gear{}", gear);
             List<PartNumber> adjacentParts = new ArrayList<>();
             for(PartNumber pn:partNumberList){
                 if(gear.y >= pn.row-1 && gear.y <= pn.row+1 && gear.x >= pn.beginindex-1 && gear.x <= pn.beginindex+pn.width){
@@ -106,9 +106,9 @@ public class Day3 {
                 }
             }
             if(adjacentParts.size() == 2){
-                log.info("GEAR:{}", gear);
-                log.info("PART1:{}",adjacentParts.get(0));
-                log.info("PART2:{}",adjacentParts.get(1));
+                log.debug("GEAR:{}", gear);
+                log.debug("PART1:{}",adjacentParts.get(0));
+                log.debug("PART2:{}",adjacentParts.get(1));
                 gearRatios.add(adjacentParts.get(0).value * adjacentParts.get(1).value);
             }
         }
