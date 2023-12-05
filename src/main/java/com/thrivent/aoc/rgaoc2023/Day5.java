@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//for part 2, this produces the correct answer +1. i'm not quite sure why yet.
 @Slf4j
 public class Day5 {
     
@@ -30,10 +31,12 @@ public class Day5 {
                 seeds[j] = mapping.mapValue(seeds[j]);
             }
         }
+        //88151870
         log.info("part1: {}",Arrays.stream(seeds).min(Long::compare).get());
 
-        long p2start = System.currentTimeMillis();
 
+        log.info("part2: {}",Arrays.stream(seeds).min(Long::compare).get());
+        long p2start = System.currentTimeMillis();
         List<SeedRange> workingSet = new ArrayList<>();
         List<SeedRange> nextSet = List.copyOf(seedsP2);
         for (int i = 0; i < mappings.size(); i++) {
@@ -53,14 +56,15 @@ public class Day5 {
 
     @Data
     static class Mapping{
-        List<Long> dest = new ArrayList<>();
+
         List<Long> src = new ArrayList<>();
         List<Long> range = new ArrayList<>();
+        List<Long> delta = new ArrayList<>();
 
         public void addMapping(Long d, Long s, Long r){
-            dest.add(d);
             src.add(s);
             range.add(r);
+            delta.add(d-s);
         }
         public Long getEnd(int i){
             return src.get(i)+range.get(i);
@@ -69,7 +73,7 @@ public class Day5 {
         Long mapValue(Long in){
             for(int i = 0; i < src.size(); i++){
                 if(in > src.get(i) && in < getEnd(i)){
-                    return dest.get(i)+(in - src.get(i));
+                    return in + delta.get(i);
                 }
             }
             return in;
@@ -82,30 +86,29 @@ public class Day5 {
             boolean mapped = false;
             for (int i = 0; i < src.size(); i++) {
                 //if the start of the seedrange is in the range of the mapping
-//                if(in.start > src.get(i) && in.start < getEnd(i)){
-//                    mapped = true;
-//                    //if the end of the seedrange extends beyond this range
-//                    if(in.end() > getEnd(i)) {
-//                        result.add(new SeedRange(dest.get(i)+ in.start-src.get(i),
-//                                getEnd(i)-in.start));
-//                        result.addAll(mapRange(result, new SeedRange(getEnd(i)+1, in.end()-getEnd(i)+1)));
-//                        break;
-//                    } else {
-//                        result.add(new SeedRange(dest.get(i)+in.start-src.get(i), in.range));
-//                        break;
-//                    }
-//                }
+                if(in.start > src.get(i) && in.start < getEnd(i)){
+                    mapped = true;
+                    //if the end of the seedrange extends beyond this range
+                    if(in.end() > getEnd(i)) {
+                        result.add(new SeedRange(in.start+delta.get(i), getEnd(i)-in.start));
+                        result.addAll(mapRange(result, new SeedRange(getEnd(i)+1, in.range-(getEnd(i)-in.start))));
+                        break;
+                    } else {
+                        result.add(new SeedRange(in.start+delta.get(i), in.range));
+                        break;
+                    }
+                }
 
                 //if the end of the seedRange is in the range of the mapping
                 if(in.end() > src.get(i) && in.end() < getEnd(i)){
                     mapped = true;
                     //if the start of the seedrange begins before this range
                     if(in.start < src.get(i)) {
-                        result.add(new SeedRange(dest.get(i), in.end()-src.get(i)));
-                        result.addAll(mapRange(result, new SeedRange(in.start, src.get(i)-in.start)));
+                        result.add(new SeedRange(src.get(i)+delta.get(i),in.end()-src.get(i)));
+                        result.addAll(mapRange(result, new SeedRange(in.start, in.range-(in.end()-src.get(i)))));
                         break;
                     } else {
-                        result.add(new SeedRange(dest.get(i)+in.start-src.get(i), in.range));
+                        result.add(new SeedRange(in.start+delta.get(i), in.range));
                         break;
                     }
                 }
