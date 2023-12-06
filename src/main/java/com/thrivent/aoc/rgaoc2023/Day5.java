@@ -105,7 +105,7 @@ public class Day5 {
                     //if the start of the seedrange begins before this range
                     if(in.start < src.get(i)) {
                         result.add(new SeedRange(src.get(i)+delta.get(i),in.end()-src.get(i)));
-                        result.addAll(mapRange(result, new SeedRange(in.start, in.range-(in.end()-src.get(i)))));
+                        result.addAll(mapRange(result, new SeedRange(in.start-1, in.range-(in.end()-src.get(i)))));
                         break;
                     } else {
                         result.add(new SeedRange(in.start+delta.get(i), in.range));
