@@ -56,8 +56,8 @@ public class Day2 {
             return maxR <= 12 && maxG <= 13 && maxB <= 14;
         }
 
-        public int gamePower(){
-            return maxR*maxG*maxB;
+        public int gamePower() {
+            return maxR * maxG * maxB;
         }
     }
 

@@ -26,27 +26,27 @@ public class Day4 {
         String[] stringArray = stringList.toArray(new String[]{});
 
         cardQuantities = new Integer[stringArray.length];
-        Arrays.fill(cardQuantities,1);
+        Arrays.fill(cardQuantities, 1);
 
         Integer part1 = Arrays.stream(stringArray).map(Day4::parseGame)
                 .map(Day4::calculateGameValue)
-                .reduce(0,Integer::sum);
+                .reduce(0, Integer::sum);
 
-        log.info("{}",part1);
+        log.info("{}", part1);
 
         List<Game> part2Games = Arrays.stream(stringArray)
                 .map(Day4::parseGame)
                 .map(Day4::countWinningNums)
                 .toList();
 
-        for(int i=0; i<cardQuantities.length; i++){
+        for (int i = 0; i < cardQuantities.length; i++) {
             Game game = part2Games.get(i);
-            for(int j=1; j < game.numWinners+1; j++){
+            for (int j = 1; j < game.numWinners + 1; j++) {
                 int cardsWon = cardQuantities[i];
 
-                try{
-                    cardQuantities[i+j] += cardsWon;
-                } catch (ArrayIndexOutOfBoundsException e){
+                try {
+                    cardQuantities[i + j] += cardsWon;
+                } catch (ArrayIndexOutOfBoundsException e) {
                     //continue
                 }
             }
@@ -54,11 +54,11 @@ public class Day4 {
 
         Integer part2 = Arrays.stream(cardQuantities).reduce(0, Integer::sum);
 
-        log.info("{}",part2);
+        log.info("{}", part2);
     }
 
     @AllArgsConstructor
-    static class Game{
+    static class Game {
         public Integer id;
         public List<Integer> winningnums;
         public List<Integer> playednums;
@@ -66,10 +66,10 @@ public class Day4 {
         public Integer numWinners;
     }
 
-    static Integer calculateGameValue(Game game){
-        for(Integer i:game.playednums){
-            if(game.winningnums.contains(i)){
-                if(game.score == 0) {
+    static Integer calculateGameValue(Game game) {
+        for (Integer i : game.playednums) {
+            if (game.winningnums.contains(i)) {
+                if (game.score == 0) {
                     game.score = 1;
                 } else {
                     game.score *= 2;
@@ -78,9 +78,10 @@ public class Day4 {
         }
         return game.score;
     }
-    static Game countWinningNums(Game game){
-        for(Integer i:game.playednums){
-            if(game.winningnums.contains(i)){
+
+    static Game countWinningNums(Game game) {
+        for (Integer i : game.playednums) {
+            if (game.winningnums.contains(i)) {
                 game.numWinners++;
             }
         }
@@ -92,9 +93,9 @@ public class Day4 {
         Matcher m = findId.matcher(game);
         m.find();
         game = m.group(2);
-        String [] gamenums = game.split("\\|");
-        String [] winningnums = gamenums[0].trim().split("\\s+");
-        String [] playednums = gamenums[1].trim().split("\\s+");
+        String[] gamenums = game.split("\\|");
+        String[] winningnums = gamenums[0].trim().split("\\s+");
+        String[] playednums = gamenums[1].trim().split("\\s+");
         return new Game(Integer.parseInt(m.group(1)),
                 Arrays.stream(winningnums).sequential().map(Integer::parseInt).collect(Collectors.toList()),
                 Arrays.stream(playednums).sequential().map(Integer::parseInt).collect(Collectors.toList()),
