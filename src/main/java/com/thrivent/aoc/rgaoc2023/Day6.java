@@ -14,8 +14,6 @@ import java.util.List;
 @Slf4j
 public class Day6 {
 
-    static String[] schematic;
-
     public static void main(String[] args) throws IOException {
         Path filePath = new File("src/main/resources/inputs/inputd6.txt").toPath();
         Charset charset = Charset.defaultCharset();
@@ -31,11 +29,11 @@ public class Day6 {
 
         Long time2 = Long.parseLong(Arrays.stream(
                         Arrays.copyOfRange(stringList.get(0).split("\\s+"), 1, 5))
-                .reduce("", (a, b)-> String.join("", a, b)));
+                .reduce("", (a, b) -> String.join("", a, b)));
 
         Long distance2 = Long.parseLong(Arrays.stream(
                         Arrays.copyOfRange(stringList.get(1).split("\\s+"), 1, 5))
-                .reduce("", (a, b)-> String.join("", a, b)));
+                .reduce("", (a, b) -> String.join("", a, b)));
 
         List<Integer> waysToWin = new ArrayList<>();
         for (int i = 0; i < times.size(); i++) {
@@ -48,31 +46,31 @@ public class Day6 {
             waysToWin.add(counter);
         }
 
-        log.info("part1: {}" , waysToWin.stream().reduce(1, (a, b) -> a * b));
+        log.info("part1: {}", waysToWin.stream().reduce(1, (a, b) -> a * b));
 
         List<Long> waysToWin2 = new ArrayList<>();
 
         Long interval = 1000000L;
         //find start of winners
         int startWin;
-        for (startWin = 0; ; startWin+=interval) {
+        for (startWin = 0; ; startWin += interval) {
             if (startWin * (time2 - startWin) > distance2) {
-                if(interval==1)break;
-                startWin-=interval;
-                interval/=10;
+                if (interval == 1) break;
+                startWin -= interval;
+                interval /= 10;
             }
         }
-        log.info("{}",startWin);
+        log.info("{}", startWin);
         Long endWin;
         interval = 1000000L;
-        for(endWin = time2; ; endWin-=interval){
+        for (endWin = time2; ; endWin -= interval) {
             if (endWin * (time2 - endWin) > distance2) {
-                endWin+=interval;
-                if(interval==1)break;
-                interval/=10;
+                endWin += interval;
+                if (interval == 1) break;
+                interval /= 10;
             }
         }
-        log.info("{}",endWin);
-        log.info("part2:{}", endWin-startWin);
+        log.info("{}", endWin);
+        log.info("part2:{}", endWin - startWin);
     }
 }
