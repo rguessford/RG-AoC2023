@@ -44,11 +44,11 @@ public class Day7 {
         handList.sort(comparator);
         int accumulator = 0;
         for (int i = 0; i < handList.size(); i++) {
-            log.info("rank:{}, winnings:{}, hand:{} ", i+1, handList.get(i).bid * (i+1), handList.get(i).toString());
+            log.debug("rank:{}, winnings:{}, hand:{} ", i+1, handList.get(i).bid * (i+1), handList.get(i).toString());
             accumulator = accumulator + (handList.get(i).bid * (i+1));
-            log.info("{}", accumulator);
+            log.debug("{}", accumulator);
         }
-        log.info("part1:{}",accumulator);
+        log.info("part2:{}",accumulator);
     }
     private enum HandType{
         FIVE(7), FOUR(6), FH(5), THREE(4), TWO_PAIR(3), TWO(2), ONE(1), HC(0);
