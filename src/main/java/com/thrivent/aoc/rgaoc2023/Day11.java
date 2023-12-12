@@ -32,27 +32,27 @@ public class Day11 {
         }
         long accumulator = 0;
         int expansionFactor = 1000000;
-        for (int i = 0; i < galaxies.size()-1; i++) {
-            for (int j = i+1; j < galaxies.size(); j++) {
+        for (int i = 0; i < galaxies.size() - 1; i++) {
+            for (int j = i + 1; j < galaxies.size(); j++) {
                 Galaxy one = galaxies.get(i);
                 Galaxy two = galaxies.get(j);
                 Long xDistance = (long) Math.abs((two.x - one.x));
                 for (Integer x :
                         xExpansions) {
-                    if(x > one.x && x < two.x || x < one.x && x > two.x){
-                        xDistance -=1;
-                        xDistance +=expansionFactor;
+                    if (x > one.x && x < two.x || x < one.x && x > two.x) {
+                        xDistance -= 1;
+                        xDistance += expansionFactor;
                     }
                 }
-                Long yDistance = (long) Math.abs((two.y- one.y));
+                Long yDistance = (long) Math.abs((two.y - one.y));
                 for (Integer y :
                         yExpansions) {
-                    if(y > one.y && y < two.y || y < one.y && y > two.y){
+                    if (y > one.y && y < two.y || y < one.y && y > two.y) {
                         yDistance -= 1;
                         yDistance += expansionFactor;
                     }
                 }
-                accumulator += xDistance+yDistance;
+                accumulator += xDistance + yDistance;
             }
         }
         log.info("part1: {}", accumulator);
@@ -70,7 +70,7 @@ public class Day11 {
 
     public static List<String> expandSpace(List<String> map) {
         for (int i = 0; i < map.size(); i++) {
-            if(map.get(i).contains("#")){
+            if (map.get(i).contains("#")) {
                 continue;
             } else {
                 yExpansions.add(i);
@@ -80,12 +80,12 @@ public class Day11 {
         for (int i = 0; i < map.get(1).length(); i++) {
             boolean hasGalaxy = false;
             for (int j = 0; j < map.size(); j++) {
-                if(map.get(j).charAt(i)=='#'){
+                if (map.get(j).charAt(i) == '#') {
                     hasGalaxy = true;
                     break;
                 }
             }
-            if(!hasGalaxy){
+            if (!hasGalaxy) {
                 xExpansions.add(i);
             }
         }
