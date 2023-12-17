@@ -42,14 +42,16 @@ public class Day13 {
     }
 
     public static Integer findHorizontalReflection(List<String> map){
+        Boolean[][] reflectionMap = new Boolean[map.size()][map.get(0).length()-1];
+
         Boolean[] possibleReflections = new Boolean[map.get(0).length()-1];
-        Arrays.fill(possibleReflections, true);
 
         for (int i = 0; i < map.size(); i++) {
-            if(!Arrays.stream(possibleReflections).reduce(false , (a, b)-> a || b )){
-                log.info("no possible horizontal reflections");
-                return 0;
-            }
+            Arrays.fill(possibleReflections, true);
+//            if(!Arrays.stream(possibleReflections).reduce(false , (a, b)-> a || b )){
+//                log.info("no possible horizontal reflections");
+//                return 0;
+//            }
             String line = map.get(i);
             for (int j = 0; j < possibleReflections.length; j++) {
                 if(!possibleReflections[j])continue;
@@ -64,25 +66,50 @@ public class Day13 {
                     }
                 }
             }
+            reflectionMap[i] = Arrays.copyOf(possibleReflections, possibleReflections.length);
         }
-        for (int i = 0; i < possibleReflections.length; i++) {
-            if(possibleReflections[i]){
-                log.info("reflection between line {} and {}",i,i+1);
+
+//        for (int i = 0; i < reflectionMap.length; i++) {
+//            log.info(Arrays.toString(reflectionMap[i]));
+//        }
+        for (int i = 0; i < reflectionMap[0].length; i++) {
+
+            Integer falseCounter= 0;
+            for (int j = 0; j < reflectionMap.length; j++) {
+                if (!reflectionMap[j][i]) falseCounter++;
+            }
+            if(falseCounter == 0){
+                log.info("reflection between columns {} and {}", i,i+1);
+                //part 1:
+                //return i+1;
+            } else if (falseCounter == 1) {
+                log.info("possible smudge for reflection between columns {} and {}", i, i+1);
                 return i+1;
             }
         }
+
+//        for (int i = 0; i < possibleReflections.length; i++) {
+//            if(possibleReflections[i]){
+//                log.info("reflection between line {} and {}",i,i+1);
+//                return i+1;
+//            }
+//        }
         return 0;
     }
 
     public static Integer findVerticalReflection(List<String> map){
+        Boolean[][] reflectionMap = new Boolean[map.get(0).length()][map.size()-1];
+
         Boolean[] possibleReflections = new Boolean[map.size()-1];
-        Arrays.fill(possibleReflections, true);
+
 
         for (int i = 0; i < map.get(0).length(); i++) {
-            if(!Arrays.stream(possibleReflections).reduce(false , (a, b)-> a || b )){
-                log.info("no possible vertical reflections");
-                return 0;
-            }
+            Arrays.fill(possibleReflections, true);
+
+//            if(!Arrays.stream(possibleReflections).reduce(false , (a, b)-> a || b )){
+//                log.info("no possible vertical reflections");
+//                return 0;
+//            }
             StringBuilder currentColumnBuilder = new StringBuilder();
             for (int j = 0; j < map.size(); j++) {
                 currentColumnBuilder.append(map.get(j).charAt(i));
@@ -101,13 +128,36 @@ public class Day13 {
                     }
                 }
             }
+
+            reflectionMap[i] = Arrays.copyOf(possibleReflections, possibleReflections.length);
         }
-        for (int i = 0; i < possibleReflections.length; i++) {
-            if(possibleReflections[i]){
-                log.info("reflection between line {} and {}",i,i+1);
+
+//        for (int i = 0; i < reflectionMap.length; i++) {
+//            log.info(Arrays.toString(reflectionMap[i]));
+//        }
+        for (int i = 0; i < reflectionMap[0].length; i++) {
+
+            Integer falseCounter= 0;
+            for (int j = 0; j < reflectionMap.length; j++) {
+                if (!reflectionMap[j][i]) falseCounter++;
+            }
+            if(falseCounter == 0){
+                log.info("reflection between rows {} and {}", i,i+1);
+                //part 1:
+                //return i+1;
+            } else if (falseCounter == 1) {
+                log.info("possible smudge for reflection between rows {} and {}", i, i+1);
+                //part 2:
                 return i+1;
             }
         }
+
+//        for (int i = 0; i < possibleReflections.length; i++) {
+//            if(possibleReflections[i]){
+//                log.info("reflection between line {} and {}",i,i+1);
+//                return i+1;
+//            }
+//        }
         return 0;
     }
 }
